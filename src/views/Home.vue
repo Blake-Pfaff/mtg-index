@@ -8,13 +8,24 @@
         <AppIcon icon="spinner" class="fa-3x"></AppIcon>
 
         <br />
-        <input v-on:keyup.enter="fetchCards()" type="text" v-model="name" placeholder="Search All" />
+        <input
+          v-on:keyup.enter="fetchCards()"
+          type="text"
+          v-model="name"
+          placeholder="Search All"
+        />
       </GridColumn>
       <GridColumn xs="md-6">
         <div v-for="card in cards.cards" :key="card.index">
           <div>{{ card.name }}</div>
+
           <!-- <div>{{ card.text }}</div> -->
-          <img :src="`${card.imageUrl}`" alt />
+          <img v-if="card.imageUrl" :src="card.imageUrl" :alt="card.name" />
+          <img
+            v-else
+            src="https://via.placeholder.com/275/300"
+            alt="Image Not Found"
+          />
         </div>
       </GridColumn>
     </GridRow>
@@ -29,14 +40,14 @@ export default {
   data() {
     return {
       name: "",
-      cards: []
+      cards: [],
     };
   },
   components: {
     GridContainer,
     GridRow,
     GridColumn,
-    AppIcon
+    AppIcon,
   },
   methods: {
     async fetchCards() {
@@ -44,12 +55,12 @@ export default {
 
       console.log(this.cards);
       console.log(this.name);
-    }
+    },
   },
 
   created() {
     this.fetchCards();
-  }
+  },
 };
 </script>
 
