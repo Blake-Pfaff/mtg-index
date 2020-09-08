@@ -5,6 +5,7 @@
         <h1>{{ name }}</h1>
 
         <span>Card Name is: {{ name }}</span>
+        <AppIcon icon="spinner" class="fa-3x"></AppIcon>
 
         <br />
         <input v-on:keyup.enter="fetchCards()" type="text" v-model="name" placeholder="Search All" />
@@ -22,7 +23,7 @@
 
 <script>
 import { API } from "@/services";
-import { GridContainer, GridRow, GridColumn } from "@/components/ui";
+import { GridContainer, GridRow, GridColumn, AppIcon } from "@/components/ui";
 export default {
   name: "Home",
   data() {
@@ -34,7 +35,8 @@ export default {
   components: {
     GridContainer,
     GridRow,
-    GridColumn
+    GridColumn,
+    AppIcon
   },
   methods: {
     async fetchCards() {

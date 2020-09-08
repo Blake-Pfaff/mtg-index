@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Questrial&display=swap");
 
 // App variables
-// @import "variables";
+@import "variables";
 
 // Bootstrap 4 Grid
 @import "bootstrap/scss/_functions";
@@ -10,11 +10,11 @@
 @import "bootstrap/scss/bootstrap-reboot";
 
 // App mixins
-// @import "mixins";
+@import "mixins";
 
 // Application Styles
-// body {
-//   background-color: map-get($colors, "background");
-//   font-family: $body-font-family;
-//   color: map-get($colors, "light-gray");
-// }
+body {
+  background-color: map-get($colors, "background");
+  font-family: $body-font-family;
+  color: map-get($colors, "light-gray");
+}
