@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="Home">
+    <div class="fixed-top-spacer"></div>
     <AppHeader>
       <GridContainer>
         <GridRow>
@@ -93,4 +94,16 @@ export default {
 
 <style lang="scss">
 @import "@/styles/app.scss";
+.Home {
+  position: relative;
+  z-index: 100;
+  .fixed-top-spacer {
+    margin-top: 100px;
+  }
+  @media (max-width: $breakpoint-tablet) {
+    .fixed-top-spacer {
+      margin-top: 180px;
+    }
+  }
+}
 </style>
