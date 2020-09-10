@@ -5,3 +5,19 @@
   display: -ms-flexbox;
   display: flex;
 }
+
+@mixin //BUTTON STYLES
+  button {
+  background: transparent;
+  transition: 0.3s;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 10px;
+  &:hover {
+    background: map-get($colors, "light-gray");
+    color: map-get($colors, "white");
+  }
+  &:focus {
+    outline: 0;
+  }
+}

@@ -10,43 +10,16 @@
             </RouterLink>
           </GridColumn>
           <GridColumn alignSelf="center" xs="md-9">
-            <FilterIcon />
+            <FilterIcon @show-filters="handleShowFilters" />
           </GridColumn>
         </GridRow>
       </GridContainer>
     </AppHeader>
-    <FilterMenu></FilterMenu>
-    <GridContainer>
-      <GridRow>
-        <GridColumn xs="md-6">
-          <h1>{{ name }}</h1>
-
-          <span>Card Name is: {{ name }}</span>
-          <AppIcon icon="spinner" class="fa-3x"></AppIcon>
-
-          <br />
-          <input
-            v-on:keyup.enter="fetchCards()"
-            type="text"
-            v-model="name"
-            placeholder="Search All"
-          />
-        </GridColumn>
-        <GridColumn xs="md-6">
-          <div v-for="card in cards.cards" :key="card.index">
-            <div>{{ card.name }}</div>
-
-            <!-- <div>{{ card.text }}</div> -->
-            <img v-if="card.imageUrl" :src="card.imageUrl" :alt="card.name" />
-            <img
-              v-if="!card.imageUrl"
-              src="https://via.placeholder.com/275/300"
-              alt="Image Not Found"
-            />
-          </div>
-        </GridColumn>
-      </GridRow>
-    </GridContainer>
+    <FilterMenu
+      @fetch-cards="fetchCards"
+      v-show="this.filterMenuSelected"
+      transition="bounce"
+    />
   </div>
 </template>
 
@@ -60,14 +33,15 @@ import {
   GridColumn,
   AppLogo,
   FilterIcon,
-  AppIcon
 } from "@/components/ui";
 export default {
   name: "Home",
   data() {
     return {
       name: "",
-      cards: []
+      cards: [],
+      filterMenuSelected: false,
+      transitionName: "fade",
     };
   },
   components: {
@@ -77,21 +51,28 @@ export default {
     FilterIcon,
     AppHeader,
     AppLogo,
-    AppIcon,
-    FilterMenu
+    FilterMenu,
   },
   methods: {
     async fetchCards() {
       this.cards = await API.getCards({ page: 1, name: this.name });
 
-      console.log(this.cards);
+      console.log(this.cards.cards);
       console.log(this.name);
-    }
+    },
+    // So now this function gets called when @show-flters event is fired from the child.
+    handleShowFilters() {
+      if (this.filterMenuSelected === false) {
+        this.filterMenuSelected = true;
+      } else {
+        this.filterMenuSelected = false;
+      }
+    },
   },
 
   created() {
     this.fetchCards();
-  }
+  },
 };
 </script>
 
@@ -101,11 +82,25 @@ export default {
   position: relative;
   z-index: 100;
   .fixed-top-spacer {
-    margin-top: 100px;
+    margin-top: 80px;
+    button {
+      background: transparent;
+      transition: 0.3s;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 10px;
+      &:hover {
+        background: map-get($colors, "light-gray");
+        color: map-get($colors, "white");
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
   }
   @media (max-width: $breakpoint-tablet) {
     .fixed-top-spacer {
-      margin-top: 180px;
+      margin-top: 150px;
     }
   }
 }

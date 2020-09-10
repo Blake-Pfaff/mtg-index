@@ -1,6 +1,6 @@
 <template>
   <div class="Header__filterIcon">
-    <button>
+    <button @click="handleButtonClick">
       <AppIcon icon="list" class="appIcon" />
       <span>Click to apply search Filters</span>
     </button>
@@ -13,28 +13,25 @@ import { AppIcon } from "@/components/ui";
 export default {
   name: "FilterIcon",
   components: {
-    AppIcon
-  }
+    AppIcon,
+  },
+  methods: {
+    // When the button is clicked, it will fire this function
+    // The only thing this function does is tell the parent that an event has been emitted
+    // This event name is called "showFlters"
+    handleButtonClick() {
+      this.$emit("show-filters");
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/styles/_variables.scss";
+@import "@/styles/_mixins.scss";
 .Header__filterIcon {
   button {
-    background: transparent;
-    transition: 0.3s;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 10px;
-    &:hover {
-      background: map-get($colors, "light-gray");
-      color: map-get($colors, "white");
-    }
-    &:focus {
-      outline: 0;
-    }
-
+    @include button;
     .appIcon {
       padding-right: 20px;
     }
