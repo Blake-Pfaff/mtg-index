@@ -15,11 +15,9 @@
         </GridRow>
       </GridContainer>
     </AppHeader>
-    <FilterMenu
-      @fetch-cards="fetchCards"
-      v-show="this.filterMenuSelected"
-      transition="bounce"
-    />
+    <transition name="fade">
+      <FilterMenu v-show="filterMenuSelected" v-on:fetch-cards="fetchCards" />
+    </transition>
   </div>
 </template>
 
@@ -97,6 +95,13 @@ export default {
         outline: 0;
       }
     }
+  }
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
   @media (max-width: $breakpoint-tablet) {
     .fixed-top-spacer {

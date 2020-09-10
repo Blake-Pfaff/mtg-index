@@ -1,37 +1,36 @@
 <template>
-  <transition name="fade">
-    <div class="FilterMenu">
-      <span>Search By Name</span>
-      <form @submit.prevent="handleSearch">
-        <input v-model="name" type="text" placeholder="Search All" />
-      </form>
+  <div class="FilterMenu">
+    <span>Search By Name</span>
+    <form @submit.prevent="handleSearch">
+      <input v-model="name" type="text" placeholder="Search All" />
+    </form>
 
-      <br />
-      <span>or</span>
-      <div class="FilterMenu__field">
-        <label for="mana">
-          Search by Color
-          <input type="checkbox" id="color" />
-        </label>
-      </div>
+    <br />
+    <span>or</span>
+    <div class="FilterMenu__field">
+      <label for="mana">
+        Search by Color
+        <input type="checkbox" id="color" />
+      </label>
+    </div>
 
-      <div class="FilterMenu__field">
-        <label for="mana">
-          Search by Type
-          <input type="checkbox" id="type" />
-        </label>
-      </div>
+    <div class="FilterMenu__field">
+      <label for="mana">
+        Search by Type
+        <input type="checkbox" id="type" />
+      </label>
+    </div>
 
-      <div class="FilterMenu__field">
-        <label for="mana">
-          Search by Rarity
-          <input type="checkbox" id="type" />
-        </label>
-      </div>
+    <div class="FilterMenu__field">
+      <label for="mana">
+        Search by Rarity
+        <input type="checkbox" id="type" />
+      </label>
+    </div>
 
-      <button @click="handleSearch">Press to Search</button>
+    <button @click="handleSearch">Press to Search</button>
 
-      <!-- <h1>{{ name }}TEST</h1>
+    <!-- <h1>{{ name }}TEST</h1>
 
     <span>Card Name is: {{ name }}</span>
     <AppIcon icon="spinner" class="fa-3x"></AppIcon>
@@ -42,13 +41,12 @@
     <div v-for="card in cards.cards" :key="card.index">
     <div>{{ card.name }}</div>-->
 
-      <!-- <div>{{ card.text }}</div> -->
-      <!-- <img v-if="card.imageUrl" :src="card.imageUrl" :alt="card.name" />
+    <!-- <div>{{ card.text }}</div> -->
+    <!-- <img v-if="card.imageUrl" :src="card.imageUrl" :alt="card.name" />
     <img v-if="!card.imageUrl" src="https://via.placeholder.com/275/300" alt="Image Not Found" />-->
-      <!-- </div> -->
-      <!-- <AppIcon icon="spinner" class="fa-3x"></AppIcon> -->
-    </div>
-  </transition>
+    <!-- </div> -->
+    <!-- <AppIcon icon="spinner" class="fa-3x"></AppIcon> -->
+  </div>
 </template>
 
 <script>
@@ -73,13 +71,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 @import "@/styles/_variables.scss";
 @import "@/styles/_mixins.scss";
 .FilterMenu {
