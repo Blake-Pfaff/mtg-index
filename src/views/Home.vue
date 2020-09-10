@@ -54,11 +54,11 @@ export default {
     FilterMenu,
   },
   methods: {
-    async fetchCards() {
-      this.cards = await API.getCards({ page: 1, name: this.name });
+    async fetchCards(name) {
+      this.cards = await API.getCards({ page: 1, name: name });
 
       console.log(this.cards.cards);
-      console.log(this.name);
+      console.log(name);
     },
     // So now this function gets called when @show-flters event is fired from the child.
     handleShowFilters() {

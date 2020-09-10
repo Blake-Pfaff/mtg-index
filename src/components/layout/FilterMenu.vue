@@ -2,12 +2,9 @@
   <transition name="fade">
     <div class="FilterMenu">
       <span>Search By Name</span>
-      <input
-        v-on:keyup.enter="handleSearch()"
-        type="text"
-        v-model="name"
-        placeholder="Search All"
-      />
+      <form @submit.prevent="handleSearch">
+        <input v-model="name" type="text" placeholder="Search All" />
+      </form>
 
       <br />
       <span>or</span>
@@ -69,7 +66,7 @@ export default {
   },
   methods: {
     handleSearch() {
-      this.$emit("fetch-cards");
+      this.$emit("fetch-cards", this.name);
     },
   },
 };
