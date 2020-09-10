@@ -15,6 +15,7 @@
         </GridRow>
       </GridContainer>
     </AppHeader>
+    <FilterMenu></FilterMenu>
     <GridContainer>
       <GridRow>
         <GridColumn xs="md-6">
@@ -51,7 +52,8 @@
 
 <script>
 import { API } from "@/services";
-import AppHeader from "@/components/layout/AppHeader.vue";
+
+import { AppHeader, FilterMenu } from "@/components/layout";
 import {
   GridContainer,
   GridRow,
@@ -75,7 +77,8 @@ export default {
     FilterIcon,
     AppHeader,
     AppLogo,
-    AppIcon
+    AppIcon,
+    FilterMenu
   },
   methods: {
     async fetchCards() {
