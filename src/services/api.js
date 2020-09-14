@@ -7,8 +7,6 @@ export const API = {
       url = `${url}&name=${params.name}`;
     }
     const req = await fetch(url);
-    const headers = req.headers;
-    console.log(headers);
     const payload = await req.json();
     return payload;
   },

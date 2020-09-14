@@ -79,10 +79,13 @@ export default {
   border-bottom: 1px solid map-get($colors, "light-gray");
   border-radius: 5px;
   height: 100vh;
-  position: absolute;
+  position: fixed;
+  top: 80px;
   z-index: 900;
   background-color: map-get($colors, "background");
   padding-top: 50px;
+  opacity: 0.97;
+
   &__field {
     @include flexbox;
     justify-content: space-evenly;
@@ -92,11 +95,15 @@ export default {
   button {
     @include button;
   }
-  @media (max-width: $breakpoint-mobile) {
+  @media (max-width: $breakpoint-tablet) {
     width: 100%;
     span {
       display: block;
     }
+    top: 50px;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    top: 130px;
   }
 }
 </style>

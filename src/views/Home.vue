@@ -18,13 +18,64 @@
     <transition name="fade">
       <FilterMenu v-show="filterMenuSelected" v-on:fetch-cards="fetchCards" />
     </transition>
+    <Cards :cards="cards" />
   </div>
 </template>
 
 <script>
 import { API } from "@/services";
+import { AppHeader, FilterMenu, Cards } from "@/components/layout";
+import {
+  GridContainer,
+  GridRow,
+  GridColumn,
+  AppLogo,
+  FilterIcon,
+} from "@/components/ui";
 
-import { AppHeader, FilterMenu } from "@/components/layout";
+export default {
+  name: "Home",
+  data() {
+    return {
+      name: "",
+      cards: [],
+      filterMenuSelected: false,
+      transitionName: "fade",
+    };
+  },
+  components: {
+    GridContainer,
+    GridRow,
+    GridColumn,
+    FilterIcon,
+    AppHeader,
+    AppLogo,
+    FilterMenu,
+    Cards,
+  },
+  methods: {
+    async fetchCards(name) {
+      const res = await API.getCards({ page: 1, name: name });
+      console.log(res);
+    },
+    handleShowFilters() {
+      if (this.filterMenuSelected === false) {
+        this.filterMenuSelected = true;
+      } else {
+        this.filterMenuSelected = false;
+      }
+    },
+  },
+  created() {
+    this.fetchCards();
+  },
+};
+</script>
+
+<script>
+import { API } from "@/services";
+
+import { AppHeader, FilterMenu, Cards } from "@/components/layout";
 import {
   GridContainer,
   GridRow,
@@ -50,15 +101,13 @@ export default {
     AppHeader,
     AppLogo,
     FilterMenu,
+    Cards,
   },
   methods: {
     async fetchCards(name) {
-      this.cards = await API.getCards({ page: 1, name: name });
-
-      console.log(this.cards.cards);
-      console.log(name);
+      const response = await API.getCards({ page: 1, name: name });
+      this.cards = response.cards;
     },
-    // So now this function gets called when @show-flters event is fired from the child.
     handleShowFilters() {
       if (this.filterMenuSelected === false) {
         this.filterMenuSelected = true;
@@ -80,7 +129,7 @@ export default {
   position: relative;
   z-index: 100;
   .fixed-top-spacer {
-    margin-top: 80px;
+    margin-top: 150px;
     button {
       background: transparent;
       transition: 0.3s;
@@ -105,7 +154,7 @@ export default {
   }
   @media (max-width: $breakpoint-tablet) {
     .fixed-top-spacer {
-      margin-top: 150px;
+      margin-top: 220px;
     }
   }
 }
