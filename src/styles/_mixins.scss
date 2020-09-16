@@ -6,8 +6,9 @@
   display: flex;
 }
 
-@mixin //BUTTON STYLES
-  button {
+//BUTTON STYLES
+
+@mixin button {
   background: transparent;
   transition: 0.3s;
   border: 1px solid gray;
@@ -19,5 +20,32 @@
   }
   &:focus {
     outline: 0;
+  }
+}
+@mixin flash {
+  animation-name: flash;
+  animation-duration: 0.6s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-play-state: running;
+
+  @keyframes flash {
+    from {
+      color: transparent;
+    }
+    to {
+      color: black;
+    }
+  }
+}
+
+@mixin fade {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
   }
 }

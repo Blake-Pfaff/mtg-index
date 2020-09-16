@@ -29,28 +29,14 @@
     </div>
 
     <button @click="handleSearch">Press to Search</button>
-
-    <!-- <h1>{{ name }}TEST</h1>
-
-    <span>Card Name is: {{ name }}</span>
-    <AppIcon icon="spinner" class="fa-3x"></AppIcon>
-
-    <br />
-  
-
-    <div v-for="card in cards.cards" :key="card.index">
-    <div>{{ card.name }}</div>-->
-
-    <!-- <div>{{ card.text }}</div> -->
-    <!-- <img v-if="card.imageUrl" :src="card.imageUrl" :alt="card.name" />
-    <img v-if="!card.imageUrl" src="https://via.placeholder.com/275/300" alt="Image Not Found" />-->
-    <!-- </div> -->
-    <!-- <AppIcon icon="spinner" class="fa-3x"></AppIcon> -->
+    <button @click="handleClose">
+      Press to close <AppIcon icon="times" class="appIcon" />
+    </button>
   </div>
 </template>
 
 <script>
-// import { AppIcon } from "@/components/ui";
+import { AppIcon } from "@/components/ui";
 
 export default {
   name: "FilterMenu",
@@ -60,11 +46,14 @@ export default {
     };
   },
   components: {
-    // AppIcon
+    AppIcon,
   },
   methods: {
     handleSearch() {
       this.$emit("fetch-cards", this.name);
+    },
+    handleClose() {
+      this.$emit("close-filters");
     },
   },
 };
@@ -94,6 +83,8 @@ export default {
   }
   button {
     @include button;
+    width: 80%;
+    margin: 10px 0;
   }
   @media (max-width: $breakpoint-tablet) {
     width: 100%;

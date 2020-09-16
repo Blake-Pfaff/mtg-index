@@ -16,9 +16,6 @@ export default {
     AppIcon,
   },
   methods: {
-    // When the button is clicked, it will fire this function
-    // The only thing this function does is tell the parent that an event has been emitted
-    // This event name is called "showFlters"
     handleButtonClick() {
       this.$emit("show-filters");
     },

@@ -16,9 +16,22 @@
       </GridContainer>
     </AppHeader>
     <transition name="fade">
-      <FilterMenu v-show="filterMenuSelected" v-on:fetch-cards="fetchCards" />
+      <FilterMenu
+        v-show="filterMenuSelected"
+        v-on:fetch-cards="fetchCards"
+        v-on:close-filters="closeFilters"
+      />
     </transition>
-    <Cards :cards="cards" />
+    <GridContainer>
+      <GridRow justifyContent="center">
+        <div class="LoadingContainer" v-show="loading">
+          <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+          <h2 class="loading">Loading...</h2>
+        </div>
+      </GridRow>
+    </GridContainer>
+    <Cards v-show="!loading" :cards="cards" />
   </div>
 </template>
 
@@ -41,6 +54,7 @@ export default {
       cards: [],
       filterMenuSelected: false,
       transitionName: "fade",
+      loading: true,
     };
   },
   components: {
@@ -55,8 +69,15 @@ export default {
   },
   methods: {
     async fetchCards(name) {
-      const res = await API.getCards({ page: 1, name: name });
-      console.log(res);
+      this.loading = true;
+      try {
+        const res = await API.getCards({ page: 1, name: name });
+        this.cards = res.cards;
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        this.loading = false;
+      }
     },
     handleShowFilters() {
       if (this.filterMenuSelected === false) {
@@ -65,58 +86,10 @@ export default {
         this.filterMenuSelected = false;
       }
     },
-  },
-  created() {
-    this.fetchCards();
-  },
-};
-</script>
-
-<script>
-import { API } from "@/services";
-
-import { AppHeader, FilterMenu, Cards } from "@/components/layout";
-import {
-  GridContainer,
-  GridRow,
-  GridColumn,
-  AppLogo,
-  FilterIcon,
-} from "@/components/ui";
-export default {
-  name: "Home",
-  data() {
-    return {
-      name: "",
-      cards: [],
-      filterMenuSelected: false,
-      transitionName: "fade",
-    };
-  },
-  components: {
-    GridContainer,
-    GridRow,
-    GridColumn,
-    FilterIcon,
-    AppHeader,
-    AppLogo,
-    FilterMenu,
-    Cards,
-  },
-  methods: {
-    async fetchCards(name) {
-      const response = await API.getCards({ page: 1, name: name });
-      this.cards = response.cards;
-    },
-    handleShowFilters() {
-      if (this.filterMenuSelected === false) {
-        this.filterMenuSelected = true;
-      } else {
-        this.filterMenuSelected = false;
-      }
+    closeFilters() {
+      this.filterMenuSelected = false;
     },
   },
-
   created() {
     this.fetchCards();
   },
@@ -125,9 +98,16 @@ export default {
 
 <style lang="scss">
 @import "@/styles/app.scss";
+@import "@/styles/_mixins.scss";
+
 .Home {
   position: relative;
   z-index: 100;
+  .LoadingContainer {
+    .loading {
+      @include flash;
+    }
+  }
   .fixed-top-spacer {
     margin-top: 150px;
     button {
@@ -145,13 +125,8 @@ export default {
       }
     }
   }
-  .fade-enter-active,
-  .fade-leave-active {
-    transition: opacity 0.5s;
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
-  }
+
+  @include fade;
   @media (max-width: $breakpoint-tablet) {
     .fixed-top-spacer {
       margin-top: 220px;

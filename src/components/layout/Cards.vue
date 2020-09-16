@@ -47,6 +47,8 @@ export default {
     h2 {
       font-family: $header-font-family;
       text-transform: capitalize;
+      background-color: map-get($colors, "background");
+      border-radius: 5px;
     }
     div {
       background-color: map-get($colors, "background");
