@@ -31,7 +31,45 @@
         </div>
       </GridRow>
     </GridContainer>
+    <paginate
+      v-show="!loading"
+      v-model="pagination.currentPage"
+      :page-count="pagination.lastPage"
+      :prev-text="'Prev'"
+      :next-text="'Next'"
+      :container-class="'pagination'"
+      :page-class="`page-class`"
+      :page-link-class="`page-link-class`"
+      :prev-class="`prev-class`"
+      :prev-link-class="`prev-link-class`"
+      :next-class="`next-class`"
+      :next-link-class="`next-link-class`"
+      :break-view-class="`break-view-class`"
+      :break-view-link-class="`break-view-link-class`"
+      :active-class="`active-class`"
+      :disabled-class="`disabled-class`"
+    >
+    </paginate>
     <Cards v-show="!loading" :cards="cards" />
+    <paginate
+      v-show="!loading"
+      v-model="pagination.currentPage"
+      :page-count="pagination.lastPage"
+      :prev-text="'Prev'"
+      :next-text="'Next'"
+      :container-class="'pagination'"
+      :page-class="`page-class`"
+      :page-link-class="`page-link-class`"
+      :prev-class="`prev-class`"
+      :prev-link-class="`prev-link-class`"
+      :next-class="`next-class`"
+      :next-link-class="`next-link-class`"
+      :break-view-class="`break-view-class`"
+      :break-view-link-class="`break-view-link-class`"
+      :active-class="`active-class`"
+      :disabled-class="`disabled-class`"
+    >
+    </paginate>
   </div>
 </template>
 
@@ -55,6 +93,12 @@ export default {
       filterMenuSelected: false,
       transitionName: "fade",
       loading: true,
+      pagination: {
+        pageSize: 1,
+        total: 1,
+        currentPage: 1,
+        lastPage: 1,
+      },
     };
   },
   components: {
@@ -71,8 +115,12 @@ export default {
     async fetchCards(name) {
       this.loading = true;
       try {
-        const res = await API.getCards({ page: 1, name: name });
-        this.cards = res.cards;
+        const res = await API.getCards({
+          page: this.pagination.currentPage,
+          name: name,
+        });
+        this.cards = res.data;
+        this.pagination = res.pagination;
       } catch (error) {
         alert(error.message);
       } finally {
@@ -90,8 +138,13 @@ export default {
       this.filterMenuSelected = false;
     },
   },
-  created() {
-    this.fetchCards();
+  watch: {
+    "pagination.currentPage": {
+      immediate: true,
+      handler: function() {
+        this.fetchCards();
+      },
+    },
   },
 };
 </script>
@@ -106,6 +159,47 @@ export default {
   .LoadingContainer {
     .loading {
       @include flash;
+    }
+  }
+  .pagination {
+    @include flexbox;
+    justify-content: center;
+    list-style-type: none;
+
+    .prev-link-class,
+    .next-link-class,
+    .page-link-class {
+      border: 1px solid map-get($colors, "light-gray");
+      padding: 10px;
+      color: map-get($colors, "light-gray");
+
+      &:hover {
+        text-decoration: none;
+        background: map-get($colors, "light-gray");
+        color: map-get($colors, "white");
+      }
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    .page-link-class {
+      border-left: 0px;
+      border-right: 0px;
+    }
+    .page-class {
+      a {
+        border-left: 1px solid map-get($colors, "dark-gray");
+      }
+    }
+    .prev-link-class {
+      border-right: 0px;
+    }
+    .active-class {
+      a {
+        background: map-get($colors, "dark-gray");
+        color: map-get($colors, "white");
+      }
     }
   }
   .fixed-top-spacer {
