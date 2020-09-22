@@ -4,15 +4,23 @@ export const API = {
   getCards: async (params) => {
     const page = params.page || 1;
     const requestedPageSize = 50;
+
     let url = `${BASE_URL}?page=${page}&pageSize=${requestedPageSize}`;
     if (params.name) {
       url = `${url}&name=${params.name}`;
+    }
+    if (params.colors) {
+      url = `${url}&colors=${params.colors}`;
+    }
+    if (params.rarity) {
+      url = `${url}&rarity=${params.rarity}`;
     }
     const req = await fetch(url);
     const payload = await req.json();
     const pageSize = Number(req.headers.get("Page-Size"));
     const totalCards = Number(req.headers.get("Total-Count"));
     const lastPage = Math.ceil(totalCards / pageSize);
+
     return {
       data: payload.cards,
       pagination: {

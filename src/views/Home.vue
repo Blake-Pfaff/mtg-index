@@ -31,8 +31,13 @@
         </div>
       </GridRow>
     </GridContainer>
+    <GridContainer>
+      <GridRow justifyContent="center">
+        <h3 v-show="showNoCardsMessage">Sorry no cards found</h3>
+      </GridRow>
+    </GridContainer>
     <paginate
-      v-show="!loading"
+      v-show="showCards"
       v-model="pagination.currentPage"
       :page-count="pagination.lastPage"
       :prev-text="'Prev'"
@@ -50,9 +55,10 @@
       :disabled-class="`disabled-class`"
     >
     </paginate>
-    <Cards v-show="!loading" :cards="cards" />
+    <Cards v-show="showCards" :cards="cards" />
+
     <paginate
-      v-show="!loading"
+      v-show="showCards"
       v-model="pagination.currentPage"
       :page-count="pagination.lastPage"
       :prev-text="'Prev'"
@@ -90,6 +96,7 @@ export default {
     return {
       name: "",
       cards: [],
+      colors: [],
       filterMenuSelected: false,
       transitionName: "fade",
       loading: true,
@@ -112,12 +119,12 @@ export default {
     Cards,
   },
   methods: {
-    async fetchCards(name) {
+    async fetchCards(options) {
       this.loading = true;
       try {
         const res = await API.getCards({
           page: this.pagination.currentPage,
-          name: name,
+          ...options,
         });
         this.cards = res.data;
         this.pagination = res.pagination;
@@ -136,6 +143,17 @@ export default {
     },
     closeFilters() {
       this.filterMenuSelected = false;
+    },
+  },
+  computed: {
+    noCardsAvailable() {
+      return this.cards.length === 0;
+    },
+    showNoCardsMessage() {
+      return this.noCardsAvailable && !this.loading;
+    },
+    showCards() {
+      return !this.noCardsAvailable && !this.loading;
     },
   },
   watch: {

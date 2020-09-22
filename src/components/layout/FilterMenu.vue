@@ -1,34 +1,67 @@
 <template>
   <div class="FilterMenu">
-    <span>Search By Name</span>
+    <h3>Search By Name</h3>
     <form @submit.prevent="handleSearch">
       <input v-model="name" type="text" placeholder="Search All" />
     </form>
 
     <br />
-    <span>or</span>
-    <div class="FilterMenu__field">
-      <label for="mana">
-        Search by Color
-        <input type="checkbox" id="color" />
+
+    <div class="FilterMenu__colors">
+      <h3>Serach By Color</h3>
+      <label for="red">
+        Red <input value="red" type="checkbox" id="red" v-model="colors" />
+      </label>
+      <label for="blue">
+        Blue <input value="blue" type="checkbox" id="blue" v-model="colors" />
+      </label>
+      <label for="green">
+        Green
+        <input value="green" type="checkbox" id="green" v-model="colors" />
+      </label>
+      <label for="white">
+        White
+        <input value="white" type="checkbox" id="white" v-model="colors" />
+      </label>
+      <label for="black">
+        Black
+        <input value="black" type="checkbox" id="black" v-model="colors" />
+      </label>
+    </div>
+    <div class="FilterMenu__rarity">
+      <h3>Search By Rarity</h3>
+      <label for="common">
+        Common
+        <input value="Common" type="checkbox" id="common" v-model="rarity" />
+      </label>
+      <label for="Uncommon">
+        Uncommon
+        <input
+          value="Uncommon"
+          type="checkbox"
+          id="uncommon"
+          v-model="rarity"
+        />
+      </label>
+      <label for="rare">
+        Rare
+        <input value="Rare" type="checkbox" id="rare" v-model="rarity" />
+      </label>
+      <label for="mythicRare">
+        Mythic Rare
+        <input
+          value="Mythic"
+          type="checkbox"
+          id="mythicRare"
+          v-model="rarity"
+        />
       </label>
     </div>
 
-    <div class="FilterMenu__field">
-      <label for="mana">
-        Search by Type
-        <input type="checkbox" id="type" />
-      </label>
-    </div>
-
-    <div class="FilterMenu__field">
-      <label for="mana">
-        Search by Rarity
-        <input type="checkbox" id="type" />
-      </label>
-    </div>
-
-    <button @click="handleSearch">Press to Search</button>
+    <button @click="handleSearch">
+      Press to Search
+      <AppIcon icon="search" class="appIcon" />
+    </button>
     <button @click="handleClose">
       Press to close <AppIcon icon="times" class="appIcon" />
     </button>
@@ -43,6 +76,8 @@ export default {
   data() {
     return {
       name: "",
+      colors: [],
+      rarity: [],
     };
   },
   components: {
@@ -50,7 +85,11 @@ export default {
   },
   methods: {
     handleSearch() {
-      this.$emit("fetch-cards", this.name);
+      this.$emit("fetch-cards", {
+        name: this.name,
+        colors: this.colors.join(","),
+        rarity: this.rarity.join(","),
+      });
     },
     handleClose() {
       this.$emit("close-filters");
@@ -74,12 +113,15 @@ export default {
   background-color: map-get($colors, "background");
   padding-top: 50px;
   opacity: 0.97;
-
-  &__field {
+  overflow: scroll;
+  padding-bottom: 150px;
+  &__colors,
+  &__rarity {
     @include flexbox;
     justify-content: space-evenly;
     align-items: center;
     padding: 10px 0;
+    flex-direction: column;
   }
   button {
     @include button;
